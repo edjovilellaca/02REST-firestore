@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
-const { collection, getDocs, addDoc, query, where } = require('firebase/firestore');
+const { collection, getDocs, addDoc, query, where, doc, getDoc } = require('firebase/firestore');
 const db = require('../firebaseConfig.js');
 const projectsCollection = collection(db, 'projects');
 
@@ -28,7 +28,8 @@ async function createProject(data) {
   return { id: docRef.id, ...newProject };
 }
 
-async function getProjectById(idProject){
+//Buscar por ID de proyecto
+/* async function getProjectById(idProject){
   const kiu = query(projectsCollection, where('id', '==', idProject));
   const projectSnapshot = await getDocs(kiu);
 
@@ -37,6 +38,27 @@ async function getProjectById(idProject){
   }
 
   const projectData = projectSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return projectData;
+} */
+
+//Buscar por ID de documento
+async function getProjectById(idProject) {
+  const docRef = doc(db, 'projects', idProject); // Crear referencia al documento
+  const projectSnapshot = await getDoc(docRef); // Obtener el documento directamente
+
+  if (!projectSnapshot.exists()) { // Verificar si el documento existe
+    const kiu = query(projectsCollection, where('id', '==', idProject));
+    const projectSnapshot2 = await getDocs(kiu);
+    
+    if (projectSnapshot2.empty) {
+      throw new Error("No se encontró ningún proyecto con ese ID");
+    }
+
+    const projectData2 = projectSnapshot2.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return projectData2;
+  }
+
+  const projectData = { id: projectSnapshot.id, ...projectSnapshot.data() }; // Extraer los datos
   return projectData;
 }
 
