@@ -7,7 +7,7 @@ const { getFirestore  } = require('firebase/firestore');
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "ApiKey", //pa que se quede secreta pq chance y la uso luego
+  apiKey: "AIzaSyB3yZH-mN7OMt0PcB7OBQgmh53e0aEuigE", //pa que se quede secreta pq chance y la uso luego
   authDomain: "rest-serviciosweb.firebaseapp.com",
   projectId: "rest-serviciosweb",
   storageBucket: "rest-serviciosweb.appspot.com",
